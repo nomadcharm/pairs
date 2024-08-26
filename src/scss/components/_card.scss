@@ -1,0 +1,51 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  background: #31397d;
+  font-size: 30px;
+  color: transparent;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+
+  &__img {
+    width: 48px;
+    opacity: 0;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  &.flipped {
+    background: #f5495e;
+    color: white;
+    transition: 0.25s ease-in-out;
+
+    &:has(.card__img) {
+      background: #404cbb;
+    }
+  }
+
+  &.flipped .card__img {
+    opacity: 1;
+  }
+
+  &.matched {
+    background: #cc858d;
+    color: white;
+    transform: scale(0.95);
+
+    &:has(.card__img) {
+      background: #7780cc;
+      transform: scale(0.95);
+    }
+  }
+
+  &.matched .card__img {
+    opacity: 1;
+  }
+}
+

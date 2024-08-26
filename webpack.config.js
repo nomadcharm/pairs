@@ -1,0 +1,118 @@
+/* eslint-disable no-undef */
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const postcssPresetEnv = require('postcss-preset-env');
+const sortMediaQueries = require('postcss-sort-media-queries');
+
+const devtool = process.argv.includes('--mode=development') ? 'eval-cheap-module-source-map' : false;
+const target = process.argv.includes('--mode=development') ? 'web' : 'browserslist';
+
+module.exports = (env) => ({
+  entry: {
+    main: path.resolve(__dirname, 'src/js/index.js'),
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: env.prod ? './js/[name].[contenthash].js' : './js/[name].js',
+    clean: true,
+  },
+  devServer: {
+    open: true,
+    hot: true,
+    compress: true,
+  },
+  devtool,
+  target,
+  module: {
+    rules: [
+      {
+        test: /\.(?:js|mjs|cjs)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          // транспиляция JS кода в старый синтаксис
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
+      {
+        test: /\.(css|scss)$/i,
+        use: [
+          env.prod ? MiniCssExtractPlugin.loader : 'style-loader', // внедрение стилей в DOM (файл main.css дял prod)
+          'css-loader', // css -> common js
+          {
+            // обработка css
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  postcssPresetEnv,
+                  {
+                    // настройка префиксов
+                    autoprefixer: {
+                      flexbox: true,
+                      overrideBrowserslist: ['last 4 versions'],
+                    },
+                  },
+                  // перенос медиа-запросов в конец файла css
+                  sortMediaQueries,
+                ],
+              },
+            },
+          },
+          'sass-loader', // sass -> css
+        ],
+      },
+      {
+        test: /\.png$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/img/[name].[contenthash:8][ext]',
+        },
+        use: env.dev
+          ? []
+          : [
+              {
+                loader: ImageMinimizerPlugin.loader,
+                options: {
+                  minimizer: [
+                    {
+                      // оптимизация png
+                      implementation: ImageMinimizerPlugin.imageminMinify,
+                      options: {
+                        plugins: [['imagemin-pngquant', { quality: [0.6, 0.8] }]],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      title: 'Игра в пары',
+      favicon: path.resolve(__dirname, 'src/img/favicon.png'),
+      minify: env.dev
+        ? {}
+        : {
+            removeAttributeQuotes: true,
+            collapseWhitespace: true,
+          },
+    }),
+    new HtmlReplaceWebpackPlugin({
+      pattern: '<html>',
+      replacement: '<html lang="ru">',
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'css/main.[contenthash].css',
+    }),
+  ],
+  optimization: {},
+});
