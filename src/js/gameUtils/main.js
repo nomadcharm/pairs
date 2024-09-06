@@ -10,7 +10,6 @@ let firstCard = null;
 let secondCard = null;
 let playCards = [];
 
-// запуск игры
 const startGame = (count) => {
   let input = Number(cardsNumberInput.value);
   count = Math.pow(input, 2);
@@ -22,7 +21,6 @@ const startGame = (count) => {
   createCardElements(count);
 };
 
-// создание карточек на игровом поле
 const createCardElements = (count) => {
   for (let i = 0; i < count; i++) {
     if (numbersGame.checked) {
@@ -33,7 +31,6 @@ const createCardElements = (count) => {
   }
 };
 
-// открытие карточек
 const flipCard = (card) => {
   if (firstCard !== null && secondCard !== null) {
     firstCard.open = false;
@@ -51,7 +48,6 @@ const flipCard = (card) => {
   checkForMatch();
 };
 
-// проверка двух открытых карточек на совпадение
 const checkForMatch = () => {
   if (firstCard !== null && secondCard !== null) {
     if (firstCard.cardNumber === secondCard.cardNumber) {
@@ -65,7 +61,6 @@ const checkForMatch = () => {
   checkForWin();
 };
 
-// проверка на выигрыш
 const checkForWin = () => {
   if (document.querySelectorAll('.matched').length === playCards.length) {
     setTimeout(() => {
@@ -74,7 +69,6 @@ const checkForWin = () => {
   }
 };
 
-// завершение игры (выигрыш || истекло время)
 const finishGame = (message) => {
   isGameComplete = true;
   board.style = `grid-template-columns: repeat(1, 1fr)`;

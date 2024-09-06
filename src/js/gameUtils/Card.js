@@ -17,6 +17,7 @@ import {
   card16,
   card17,
   card18,
+  defaultImg,
 } from './imgImports';
 
 class Card {
@@ -59,7 +60,11 @@ class Card {
 
   set open(value) {
     this._open = value;
-    value ? this.cardElement.classList.add('flipped') : this.cardElement.classList.remove('flipped');
+    if (value) {
+      this.cardElement.classList.add('flipped');
+    } else {
+      this.cardElement.classList.remove('flipped');
+    }
   }
 
   get open() {
@@ -68,7 +73,11 @@ class Card {
 
   set success(value) {
     this._success = value;
-    value ? this.cardElement.classList.add('matched') : this.cardElement.classList.remove('matched');
+    if (value) {
+      this.cardElement.classList.add('matched');
+    } else {
+      this.cardElement.classList.remove('matched');
+    }
   }
 
   get success() {
@@ -82,7 +91,7 @@ class AmazingCard extends Card {
   }
 
   set cardNumber(value) {
-    let cardsImgArray = [
+    const cardsImgArray = [
       card1,
       card2,
       card3,
@@ -113,7 +122,7 @@ class AmazingCard extends Card {
     }
 
     img.onerror = () => {
-      img.src = './img/default.png';
+      img.src = defaultImg;
       throw new Error('Не удалось загрузить изображение');
     };
 

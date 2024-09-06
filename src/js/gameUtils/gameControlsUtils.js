@@ -5,7 +5,6 @@ import { startGame } from './main.js';
 //eslint-disable-next-line
 let isGameComplete = false;
 
-// сброс игры / подготовка к новой игре
 const resetGame = () => {
   isGameComplete = false;
   board.innerHTML = '';
@@ -14,20 +13,17 @@ const resetGame = () => {
   resetTime();
 };
 
-// повторить игру (с прежними настройками)
 replayButton.addEventListener('click', () => {
   resetGame();
   startGame();
 });
 
-// выбрать новые настройки для след. игры
 newSettingsButton.addEventListener('click', () => {
   resetGame();
   screens[1].classList.add('up');
   screens[0].classList.remove('down');
 });
 
-// начать игру
 startButton.addEventListener('click', () => {
   resetGame();
   screens[0].classList.add('down');

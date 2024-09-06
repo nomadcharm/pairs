@@ -1,4 +1,4 @@
-import defautImg from '../../img/default.png';
+import defaultImg from '../../img/default.png';
 import card1 from '../../img/1.png';
 import card2 from '../../img/2.png';
 import card3 from '../../img/3.png';
@@ -37,5 +37,5 @@ export {
   card16,
   card17,
   card18,
-  defautImg,
+  defaultImg,
 };

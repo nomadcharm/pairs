@@ -6,7 +6,6 @@ let time;
 let timerId;
 let isGameComplete = false;
 
-// форматирование и отображение времени
 const setTime = (time) => {
   let minutes = Math.floor(time / SECONDS_PER_MINUTE);
   let seconds = time % SECONDS_PER_MINUTE;
@@ -15,7 +14,6 @@ const setTime = (time) => {
   timeEl.innerHTML = `${formattedMinutes}:${formattedSeconds}`;
 };
 
-// отсчет времени
 const decreaseTime = () => {
   if (isGameComplete) {
     clearInterval(timerId);
@@ -31,7 +29,6 @@ const decreaseTime = () => {
   }
 };
 
-// сброс таймера
 const resetTime = () => {
   clearInterval(timerId);
   time = Number(timeInput.value);
