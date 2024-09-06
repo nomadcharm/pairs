@@ -30,4 +30,7 @@ npm run test
 - [Redom](https://redom.js.org/)
 - [Sass](https://sass-lang.com/)
 - [Webpack](https://webpack.js.org/)
+- [Babel](https://babeljs.io/)
+- [Eslint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
 - [Cypress](https://www.cypress.io/)
